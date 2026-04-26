@@ -188,7 +188,7 @@ tier1.3$Concentration_Type <- "Measured"
 cec.prioritization.12 <- tier1.3
 
 #bind CAS numbers and common names to dataset
-CAS.list <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\CEC lists and Concentration Data\\CAS List for ECOTOX search.xlsx")
+CAS.list <- read_excel("CAS List for ECOTOX search.xlsx")
 
 CAS.list$CAS_NUMBER <- gsub("-", "", CAS.list$CAS)
 
