@@ -10,8 +10,6 @@ library(xlsx)
 library(rJava)
 library(ggpubr)
 
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data")
-
 ##pull together ECOTOX data####
 glri.output <- read.csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\aquatic-data-all-fields-GLRI\\aquatic-data-all-fields-glri.csv")
 
