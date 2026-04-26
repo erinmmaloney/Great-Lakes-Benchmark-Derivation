@@ -176,8 +176,7 @@ tier1.1 <- anti_join(tier1, tier1.outlier.list.exclude)
 tier1.2 <- anti_join(tier1.1, tier1.outlier.list.replace)
 
 #read in replacement values#
-file.choose()
-tier1.replacements <- read_xlsx("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Tier 1 Measured Concentration QAQC 10-02-2021\\tier1.replacements.1.xlsx")
+tier1.replacements <- read_xlsx("tier1.replacements.1.xlsx")
 tier1.replacements$CAS_NUMBER <- as.numeric(tier1.replacements$CAS_NUMBER)
 tier1.replacements1 <- tier1.replacements %>% select(-c("Q1":"Action", "CAS"))
 
