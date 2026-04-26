@@ -9,7 +9,7 @@ library(fuzzyjoin)
 
 #usepa_opp 10_01_2022####
 CAS_chnm_all <- read_excel("WQG_repository.xlsx", "USEPA_OPP") 
-usepa_opp <- read_csv("WQG\\Aquatic Life Benchmarks and Ecological Risk Assessments for Registered Pesticides  US EPALockPrimary navigation.csv")
+usepa_opp <- read_csv("Aquatic Life Benchmarks and Ecological Risk Assessments for Registered Pesticides  US EPALockPrimary navigation.csv")
 names(usepa_opp)
 names(CAS_chnm_all)
 
