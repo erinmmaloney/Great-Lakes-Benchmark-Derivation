@@ -39,7 +39,7 @@ OPP_final <- write_xlsx(OPP_for_QAQC, "WQG\\OPP_final.xlsx")
 
 #ccme data ####
 CAS_chnm_all <- read_excel("WQG_repository.xlsx", "CCME")%>% select(CAS, `Chemical Name`)
-ccme <- read_csv("WQG\\CCME_flatfile.csv") %>% rename("CAS" = "CASRN", "AquaticLife_Freshwater_ShortTerm" = "(Freshwater) Concentration (µg/L) Short Term", "AquaticLife_Freshwater_LongTerm" = "(Freshwater) Concentration (µg/L) Long Term",
+ccme <- read_csv("CCME_flatfile.csv") %>% rename("CAS" = "CASRN", "AquaticLife_Freshwater_ShortTerm" = "(Freshwater) Concentration (µg/L) Short Term", "AquaticLife_Freshwater_LongTerm" = "(Freshwater) Concentration (µg/L) Long Term",
                                                       "Date" = "(Freshwater) Date") %>% select("Chemical Name", "CAS", AquaticLife_Freshwater_ShortTerm, AquaticLife_Freshwater_LongTerm, Date)
 names(ccme)
 
