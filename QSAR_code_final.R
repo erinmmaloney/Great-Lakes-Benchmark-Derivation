@@ -12,7 +12,7 @@ library(ggpubr)
 
 #read in CAS, phys prop & names####
 
-QSAR <- read_csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\Physical Properties\\Physical_Properties.csv")
+QSAR <- read_csv("Physical_Properties.csv")
 names(QSAR)
 
 QSAR_1 <- QSAR %>% rename("CAS" = "INPUT", "Chemical_Name" = "PREFERRED_NAME", "MW" = "AVERAGE_MASS") %>% select("CAS", "Chemical_Name", "MW", "logKOW")
@@ -36,7 +36,7 @@ QSAR_1$fish.base <- QSAR_1$fish.base * QSAR_1$MW
 QSAR_1$fish.base <- QSAR_1$fish.base * 10^6
 
 #ECOSAR estimates#
-ecosar <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\QSAR_final_compilation\\ECOSAR_data.xlsx")
+ecosar <- read_excel("ECOSAR_data.xlsx")
 
 names(ecosar)
 View(ecosar)
@@ -61,9 +61,9 @@ QSAR_2 <- left_join(QSAR_1, ecosar_1)
 View(QSAR_2)
 
 #TEST####
-TEST_Fish <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\TEST_02_04_2021\\Batch_Fathead_minnow_LC50_(96_hr)_Consensus.xlsx", 2) 
-TEST_Invert <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\TEST_02_04_2021\\Batch_Daphnia_magna_LC50_(48_hr)_Consensus.xlsx", 2)
-TEST_Plant <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\TEST_02_04_2021\\Batch_T._pyriformis_IGC50_(48_hr)_Consensus.xlsx", 2)
+TEST_Fish <- read_excel("Batch_Fathead_minnow_LC50_(96_hr)_Consensus.xlsx", 2) 
+TEST_Invert <- read_excel("Batch_Daphnia_magna_LC50_(48_hr)_Consensus.xlsx", 2)
+TEST_Plant <- read_excel("Batch_T._pyriformis_IGC50_(48_hr)_Consensus.xlsx", 2)
 
 TEST_Fish$species <- "FISH"
 names(TEST_Fish)
