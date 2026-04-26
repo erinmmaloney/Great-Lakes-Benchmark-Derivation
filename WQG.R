@@ -6,11 +6,6 @@ library(dplyr)
 library(tidyverse)
 library(fuzzyjoin)
 
-###NOTE! DO NOT READ OVER - BM have been manually edited in SI and in WQG_repository but not run through
-#NEXT TIME THIS CODE IS USED DOUBLE CHECK FINAL BM AGAINST SI GENERATED ON 14/03/2022
-
-
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Water Quality Guidelines")
 
 #usepa_opp 10_01_2022####
 CAS_chnm_all <- read_excel("WQG_repository.xlsx", "USEPA_OPP") 
