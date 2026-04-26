@@ -308,9 +308,7 @@ write_xlsx(tier1.nom.outliers3, "CEC.TIER1.NOM.POUTLIERS.xlsx")
 
 #read back in outliers and remove from dataset/replace - nominal####
 
-file.choose()
-
-tier1.nom.out <- read_excel( "C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Outlier QAQC - Initial List and Methods\\Tier 1 Nominal Values\\CEC.TIER1.NOM.POUTLIERS - EM.xlsx")
+tier1.nom.out <- read_excel( "CEC.TIER1.NOM.POUTLIERS - EM.xlsx")
 names(tier1.nom.out)
 
 tier1.nom.out1 <- tier1.nom.out %>% filter(Action == "Exclude") %>% select(-c("Full Article Accessible?":"Action"))
