@@ -27,7 +27,7 @@ write_xlsx(OPP_for_QAQC, "WQG\\OPP_for_QAQC.xlsx")
 
 
 #double check again
-OPP_for_QAQC_EM_annotated <- read_excel("WQG\\OPP_for_QAQC_EM.xlsx") %>% filter(!QAQC %in% c("Y", "y", "Yes", "yes")) %>% select(`Chemical Name`, CAS)
+OPP_for_QAQC_EM_annotated <- read_excel("OPP_for_QAQC_EM.xlsx") %>% filter(!QAQC %in% c("Y", "y", "Yes", "yes")) %>% select(`Chemical Name`, CAS)
 replacements <- left_join(OPP_for_QAQC_EM_annotated, (usepa_opp %>% rename("Chemical Name" = "Pesticide") ))
 replacements3 <- stringdist_inner_join(OPP_for_QAQC_EM_annotated, (usepa_opp %>% rename("Chemical Name" = "Pesticide")%>% select(-CAS)), max_dist = 6) %>% filter("CAS" == "CAS number")
 
