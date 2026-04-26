@@ -11,7 +11,7 @@ library(rJava)
 library(ggpubr)
 
 ##pull together ECOTOX data####
-glri.output <- read.csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\aquatic-data-all-fields-GLRI\\aquatic-data-all-fields-glri.csv")
+glri.output <- read.csv("aquatic-data-all-fields-glri.csv")
 
 cec.prioritization <- glri.output
 
