@@ -150,9 +150,9 @@ write_xlsx(tier1.outliers2, "CEC.TIER1.POUTLIERS.xlsx")
 
 #read back in outliers and remove from dataset/replace####
 #tier 1 #
-em.outliers <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Tier 1 Measured Concentration QAQC 10-02-2021\\CEC.TIER1.POUTLIERS - EM.Final.xlsx")
-dv.outliers <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Tier 1 Measured Concentration QAQC 10-02-2021\\CEC.TIER1.POUTLIERS - DV.Final.xlsx")
-me.outliers <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Tier 1 Measured Concentration QAQC 10-02-2021\\CEC.TIER1.POUTLIERS - ME.EM.Final.xlsx")
+em.outliers <- read_excel("CEC.TIER1.POUTLIERS - EM.Final.xlsx")
+dv.outliers <- read_excel("CEC.TIER1.POUTLIERS - DV.Final.xlsx")
+me.outliers <- read_excel("CEC.TIER1.POUTLIERS - ME.EM.Final.xlsx")
 
 tier1.outlier.list <- bind_rows(em.outliers, dv.outliers, me.outliers)
 names(tier1.outlier.list)
