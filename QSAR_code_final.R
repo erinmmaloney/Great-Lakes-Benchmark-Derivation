@@ -10,8 +10,6 @@ library(xlsx)
 library(rJava)
 library(ggpubr)
 
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data")
-
 #read in CAS, phys prop & names####
 
 QSAR <- read_csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\Physical Properties\\Physical_Properties.csv")
