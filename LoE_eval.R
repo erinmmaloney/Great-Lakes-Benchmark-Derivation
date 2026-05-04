@@ -13,8 +13,7 @@ library(UpSetR)
 library(VennDiagram)
 library(ComplexHeatmap)
 
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\LoE evaluation for MS 1")
-#pull the number of chemicals detected in water and passive 
+the number of chemicals detected in water and passive 
 chem_list <- read_excel("benchmark_comp_file_05_08_2024_for_MS1_analysis.xlsx", "Included Benchmarks")%>% filter(`Detected Water` == "TRUE")
 names(chem_list)
 benchmark_comparison <- read_excel("benchmark_comp_file_05_08_2024_for_MS1_analysis.xlsx", "Chemical Summary") %>% filter(type == "Water", det_freq != 0)
