@@ -15,8 +15,6 @@ glri.output <- read.csv("aquatic-data-all-fields-glri.csv")
 
 cec.prioritization <- glri.output
 
-names(cec.prioritization)
-
 #select relevant data fields & filter ####
 
 list(unique(cec.prioritization.1$CONC1_TYPE_STANDARDIZED))
