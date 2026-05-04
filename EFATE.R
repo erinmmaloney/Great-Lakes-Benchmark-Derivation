@@ -13,9 +13,7 @@ library(viridis)
 library(ComplexHeatmap)
 library(lattice)
 
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate")
-
-PB <- read_xlsx("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\CAS List - ENVIRONMENTAL FATE_R_INPUT.xlsx")
+PB <- read_xlsx("CAS List - ENVIRONMENTAL FATE_R_INPUT.xlsx")
 names(PB)
 
 PB$OPERA.BCF_unconverted <- ifelse(PB$AD_index_BCF == 0, "NaN", PB$LogBCF_pred)
@@ -31,7 +29,7 @@ PB$OPERA.T12 <- 10^(PB$OPERA.T12)
 #flag chemicals with MW > 959.17 and a MW < 68.08 & those with logKow > 11.26 as outside of AD of BCFBAF model
 write_xlsx((PB %>% select(CAS) %>% distinct()), "CAS_for_physprop.xlsx")
 
-phys.prop <- read_csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\phys_prop.csv")
+phys.prop <- read_csv("phys_prop.csv")
 names(phys.prop)
 View(phys.prop)
 names(PB)
@@ -85,7 +83,7 @@ View(PB.2)
 #bind in VEGA estimates#
 
 #P model
-VEGA_P <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\VEGA Output\\P_IMFRN_Quant.xlsx")
+VEGA_P <- read_excel("P_IMFRN_Quant.xlsx")
 
 VEGA_P1 <- VEGA_P  %>% select("Id", "Pred_HL_d", "ADI") %>% rename("CAS" = "Id", "VEGA_P" = "Pred_HL_d")
 VEGA_P1$ADI <- as.numeric(VEGA_P1$ADI)
@@ -94,11 +92,11 @@ VEGA_P1$P_VEGA <- ifelse(VEGA_P1$ADI > 0.75, VEGA_P1$VEGA_P, NaN)
 VEGA_P2 <- VEGA_P1 %>% select("CAS", "P_VEGA")
 
 #BCF models
-VEGA_B_KNN <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\VEGA Output\\report_BCF_KNN.xlsx")
+VEGA_B_KNN <- read_excel("report_BCF_KNN.xlsx")
 
-VEGA_B_MEYLAN <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\VEGA Output\\report_BCF_MEYLAN.xlsx")
+VEGA_B_MEYLAN <- read_excel("report_BCF_MEYLAN.xlsx")
 
-VEGA_B_CAESAR <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\VEGA Output\\report_BCF_CAESAR.xlsx")
+VEGA_B_CAESAR <- read_excel("report_BCF_CAESAR.xlsx")
 
 #KNN
 VEGA_B_KNN_1 <- VEGA_B_KNN %>% select("Id", "Predicted_log_BCF", "Exp_BCF", "ADI") %>%
@@ -251,7 +249,7 @@ summary(PB.final3$Bin)
 #Water Eval####
 
 #pull out E-Fate for water only
-water_chemicals <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\LoE Evaluation for MS 1\\E_Fate_doublecheck.xlsx") %>%
+water_chemicals <- read_excel("E_Fate_doublecheck.xlsx") %>%
   select(CAS, "Chemical Name",  `Experimental Value (CompTox)...5`, `Experimental Value (CompTox)...9`) %>% distinct()
 
 #match PB_estimates to chem list
@@ -285,8 +283,7 @@ water_chem_pb$EFate <- ifelse(is.na(water_chem_pb$EFate) & (water_chem_pb$Half_l
 
 write_xlsx(water_chem_pb, "E_FATE_LOE_water.xlsx")
 
-file.choose()
-efate_update <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\LoE evaluation for MS 1\\EFATE_update.xlsx") %>% select(-"Chemical Name", -"Experimental Value (CompTox)...5" , -"Experimental Value (CompTox)...9")
+efate_update <- read_excel("EFATE_update.xlsx") %>% select(-"Chemical Name", -"Experimental Value (CompTox)...5" , -"Experimental Value (CompTox)...9")
 
 efate <- left_join(water_chem_pb, efate_update, by =c("CAS")) %>% select(-c("t1/2 (d)":"B Value", "Bin":"Score")) %>% distinct()
 write_xlsx(efate, "efate_24_05_2022.xlsx")
@@ -314,76 +311,3 @@ PB_all <- left_join(PB.6, (PB.final3 %>% select(-c("B_comptox", P_comptox)))) %>
 names(PB_all)
 
 write_xlsx(PB_all, "PB_all_table_for_SI.xlsx")
-
-#plot P & B graphs to demonstrate E-Fate properties of chemicals for MS_1 ####
-chemicals <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\WoE Prioritization\\benchmark_comp_file_10_05_2022.xlsx", 2) %>%
-  filter(`Detected Water` == "TRUE") %>% select("CAS", "Class")
-chemicals_2 <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\WoE Prioritization\\benchmark_comp_file_10_05_2022.xlsx", 2) %>%
-  filter(`Detected Passive` == "TRUE") %>% select("CAS", "Class")
-
-chemicals <- bind_rows(chemicals, chemicals_2) %>% distinct()
-
-names(chemicals)
-PB.final5 <- left_join(chemicals, PB.final3)
-
-PB.final5$P_class <- ifelse(PB.final5$Half_life_days <= 40, "nP",
-                            ifelse(PB.final5$Half_life_days > 60, "vP",
-                                   ifelse(PB.final5$Half_life_days <= 60 & PB.final5$Half_life_days > 40, "P",
-                                          "DL")))
-
-PB.final5$B_class <- ifelse(PB.final5$BCF_Lkg <= 2000, "nB",
-                            ifelse(PB.final5$BCF_Lkg > 5000, "vB",
-                                   ifelse(PB.final5$BCF_Lkg > 2000 & PB.final5$BCF_Lkg <= 5000, "B",
-                                          "DL")))
-
-
-PB.final5$E_fate_class <- paste(PB.final5$P_class, PB.final5$B_class, sep = "")
-list(unique(PB.final5$E_fate_class))
-PB.final5$E_fate_class <- as.factor(PB.final5$E_fate_class)
-summary(PB.final5$E_fate_class)
-# NANA NAnB  nPB nPNA nPnB nPvB  PnB  PvB  vPB vPnB vPvB 
-# 4    1    3    1  317    1   27    1   10   53   24
-
-
-PB.final5$Bin <- ifelse(PB.final5$E_fate_class == "nPnB", "Bin 1",
-                        ifelse(PB.final5$E_fate_class == "vPnB", "Bin 4", 
-                               ifelse(PB.final5$E_fate_class == "nPvB", "Bin 4",
-                                      ifelse(PB.final5$E_fate_class == "nPB", "Bin 2", 
-                                             ifelse(PB.final5$E_fate_class == "NANA", "DL",
-                                                    ifelse(PB.final5$E_fate_class == "PnB","Bin 2",
-                                                           ifelse(PB.final5$E_fate_class == "NAnB", "Bin 1",
-                                                                  ifelse(PB.final5$E_fate_class == "vPB", "Bin 5",
-                                                                         ifelse(PB.final5$E_fate_class == "nPNA", "Bin 1",
-                                                                                ifelse(PB.final5$E_fate_class == "vPvB", "Bin 6",
-                                                                                       ifelse(PB.final5$E_fate_class == "PvB", "Bin 5", 
-                                                                                              ifelse(PB.final5$E_fate_class == "PB", "Bin 3",
-                                                                                                     "misc"))))))))))))
-  
-list(unique(PB.final5$Bin))
-
-#plot P vs. B to demonstrate Bins
-
-Efate_plot <- PB.final5 %>% filter(Bin != "DL") %>% ggscatter("Half_life_days", "BCF_Lkg", color = "Bin") + xlab("Aquatic Half Life (t1/2, d)") + ylab("Bioconcentration Factor (BCF, L/kg)") + 
-  scale_y_log10() + scale_x_log10() + scale_color_viridis_d(direction = 1) + geom_vline(xintercept = 40, linetype = "dashed") + 
-  geom_vline(xintercept = 60, linetype = "dashed") + geom_hline(yintercept = 2000, linetype = "dashed") + geom_hline(yintercept = 5000, linetype = "dashed") + theme(legend.title = element_blank())
-
-ggsave("EFate_plot.jpeg", height = 8, width = 8)
-
-write_xlsx(PB.final6, "efate_eval.xlsx")
-
-#grab + passive - separate analysis
-
-chemical_info <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\WoE Prioritization\\benchmark_comp_file_10_05_2022.xlsx", 2) %>%
-  select("CAS", "Chemical Name", "Class", "Detected Water", "Detected Passive")
-
-PB.final6 <- left_join(PB.final5, chemical_info)
-grab <- PB.final6 %>% filter(`Detected Water` == "TRUE")
-passive <- PB.final6 %>% filter(`Detected Passive` == "TRUE")
-
-summary(grab$E_fate_class)
-# NANA NAnB  nPB nPNA nPnB nPvB  PnB  PvB  vPB vPnB vPvB 
-# 1    0    1    1  195    0   14    1    1   27    0 
-
-summary(passive$E_fate_class)
-# NANA NAnB  nPB nPNA nPnB nPvB  PnB  PvB  vPB vPnB vPvB 
-# 1    0    2    0  122    0   13    1    7   21    7 
