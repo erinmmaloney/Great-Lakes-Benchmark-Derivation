@@ -10,12 +10,10 @@ library(xlsx)
 library(rJava)
 library(ggpubr)
 
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data")
-
 ##pull together ECOTOX data####
-glri.output <- read.csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\aquatic-data-all-fields-GLRI\\aquatic-data-all-fields-glri.csv") %>% mutate_all(as.character)
-glri.output1 <- read.csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\aquatic-data-all-fields-GLRI\\additional-aquatic-data-all-fields-glri.csv")%>% mutate_all(as.character)
-glri.output2 <- read.csv("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\aquatic-data-all-fields-GLRI\\aquatic-data-all-fields-part3.csv")%>% mutate_all(as.character)
+glri.output <- read.csv("aquatic-data-all-fields-glri.csv") %>% mutate_all(as.character)
+glri.output1 <- read.csv("additional-aquatic-data-all-fields-glri.csv")%>% mutate_all(as.character)
+glri.output2 <- read.csv("aquatic-data-all-fields-part3.csv")%>% mutate_all(as.character)
 
 cec.prioritization <- bind_rows(glri.output, glri.output1, glri.output2)
 
@@ -150,9 +148,9 @@ tier2.outliers1$OUTLIER.CLASS <- ifelse(tier2.outliers1$CONC_MEAN < tier2.outlie
 tier2.outliers2 <- tier2.outliers1 %>% filter(OUTLIER.CLASS == "POTENTIAL LOWER OUTLIER")
 
 #bind in the CAS numbers#
-CAS.list <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\CEC lists and Concentration Data\\CAS lists\\CAS List for ECOTOX search.xlsx")
-CAS.list1 <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\CEC lists and Concentration Data\\CAS lists\\additional_CAS_for_ECOTOX_29_07_2021.xlsx")
-CAS.list2 <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\CEC lists and Concentration Data\\CAS lists\\CAS_list_part3.xlsx")
+CAS.list <- read_excel("CAS List for ECOTOX search.xlsx")
+CAS.list1 <- read_excel("additional_CAS_for_ECOTOX_29_07_2021.xlsx")
+CAS.list2 <- read_excel("CAS_list_part3.xlsx")
 CAS.list <- bind_rows(CAS.list, CAS.list1, CAS.list2)
 CAS.list$CAS_NUMBER <- gsub("-", "", CAS.list$CAS)
 View(CAS.list)
@@ -186,10 +184,10 @@ tier2_min_outliers_Study1 <- left_join((tier2_min_outliers_Study %>% mutate_all(
 write_xlsx(tier2_min_outliers_Study1, "tier2_min_outliers_Study_1808_2021.xlsx") #153
 
 #read back in outliers and remove from dataset/replace####
-tier2.outliers_em <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Tier 1 Measured Concentration QAQC 10-02-2021\\CEC.TIER2.POUTLIERS_EM_02_03_2021.xlsx") %>% mutate_all(as.character)
-tier2.outliers_me <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Outlier QAQC 02-04-2021\\Tier2_outliers_annotated\\tier2_min_outliers_Study_ME.Final.xlsx") %>% mutate_all(as.character)
-tier2.outliers_nv <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Outlier QAQC 02-04-2021\\Tier2_outliers_annotated\\tier2_min_outliers_Study_NV.Final.xlsx") %>% mutate_all(as.character)
-tier2.outliers_final <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\missing_t2_outliers_EM.xlsx")
+tier2.outliers_em <- read_excel("CEC.TIER2.POUTLIERS_EM_02_03_2021.xlsx") %>% mutate_all(as.character)
+tier2.outliers_me <- read_excel("tier2_min_outliers_Study_ME.Final.xlsx") %>% mutate_all(as.character)
+tier2.outliers_nv <- read_excel("tier2_min_outliers_Study_NV.Final.xlsx") %>% mutate_all(as.character)
+tier2.outliers_final <- read_excel("missing_t2_outliers_EM.xlsx")
 tier2_outliers_final <- bind_rows(tier2.outliers_em, tier2.outliers_me, tier2.outliers_nv, tier2.outliers_final)
 names(tier2.outliers_em)
 
@@ -214,7 +212,7 @@ tier2.1$Concentration_Type <- "Measured"
 
 #put in replacements
 names(tier2.replacements)
-tier2.replacements <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\missing_t2_outliers_EM.xlsx", 2) %>% mutate_all(as.character) %>%
+tier2.replacements <- read_excel("missing_t2_outliers_EM.xlsx", 2) %>% mutate_all(as.character) %>%
   select(-c("Full Article Accessible?":"Action"))
 tier2.replacements$Concentration_Type <- "Measured"
 
@@ -392,8 +390,8 @@ tier2_min_nom_outliers_Study1 <- left_join(tier2_min_nom_outliers_Study, (CAS.li
 write_xlsx(tier2_min_nom_outliers_Study1, "tier2_min_nom_outliers_Study_18_08_2021.xlsx") #153
 
 #read in annotated outliers#
-tier2_nom_outliers_final <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\Outlier QAQC 02-04-2021\\Tier2_outliers_annotated\\tier2_nom_EM.final.xlsx") %>% mutate_all(as.character)
-tier2_nom_outliers_extra <- read_excel( "C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\tier2_nom_extra_outliers_EM.xlsx")%>% mutate_all(as.character)
+tier2_nom_outliers_final <- read_excel("tier2_nom_EM.final.xlsx") %>% mutate_all(as.character)
+tier2_nom_outliers_extra <- read_excel( "tier2_nom_extra_outliers_EM.xlsx")%>% mutate_all(as.character)
 
 #pull out outliers that haven't been QAQC'd####
 tier2_nom_outliers <- bind_rows(tier2_min_nom_outliers_Study1, tier2.nom.outliers3)
@@ -417,7 +415,7 @@ cec.t2.nominal1 <- left_join(tier2.nom.1, (CAS.list1 %>% mutate_all(as.character
 
 #write out nominal tier 2 benchmarks and QA
 tier_2_qad <- read_excel("tier2.2_for_QAQC_EM_annotated_22_02_2022.xlsx")
-annotated_new_nominals <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\ECOTOX Data\\nominals_new_12_t2_for_QAQC_EM_annotated.xlsx") %>% 
+annotated_new_nominals <- read_excel("nominals_new_12_t2_for_QAQC_EM_annotated.xlsx") %>% 
   filter(Action %in% c("Exclude", "Replace")) %>% select(-c("Full Article Accessible?":"Action"))
 
 annotated_new_nominals$CONC_MEAN <- as.character(annotated_new_nominals$CONC_MEAN)
@@ -525,8 +523,6 @@ tier2.9$AF_Total <- tier2.9$AF_datarichness * tier2.9$AF_Effect * tier2.9$AF_Stu
 write_xlsx(tier2.9, "preBenchmark_file_tier2.xlsx")
 
 ##divide AF_total by min concentration to get benchmark value##
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Final Benchmarks - Iterations")
-
 tier2.10 <- tier2.9
 names(tier2.10)
 
