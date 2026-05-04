@@ -364,8 +364,6 @@ View(effect)
 cec.prioritization.16 <- bind_rows(noeffect, loweffect, effect)
 
 #Chemicals with missing ECOTOX data ####
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data")
-
 #identify missing chemicals
 missing.chemicals <- anti_join(CAS.list1, cec.prioritization.16, by = "CAS")
 View(missing.chemicals)
@@ -379,7 +377,7 @@ View(missing.missing.chemicals)
 write_xlsx(missing.missing.chemicals, "CECS_no_ECOTOX_Extra_25_02_2021.xlsx")
 
 #read in logKow/MW estimates##
-missing.chem.physchem <- read.xlsx("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\Physical Properties\\COMPTOX_logKOW_MW_estimates.xlsx", 1)
+missing.chem.physchem <- read.xlsx("COMPTOX_logKOW_MW_estimates.xlsx", 1)
 names(missing.chem.physchem)
 
 missing.chem.physchem1 <- missing.chem.physchem %>% rename("CAS" = "INPUT", "MW" = "AVERAGE_MASS", "logKow" = "OCTANOL_WATER_PARTITION_LOGP_OPERA_PRED") %>% select("CAS", "MW", "logKow")
@@ -407,9 +405,7 @@ missing.chem$fish.base <- missing.chem$fish.base * missing.chem$MW
 missing.chem$fish.base <- missing.chem$fish.base * 10^6
 
 #Read in QSAR estimates - collation on separate R script#
-file.choose()
-
-qsar.estimates <- read_xlsx("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\QSAR Data\\QSAR_final_converted.xlsx")
+qsar.estimates <- read_xlsx("QSAR_final_converted.xlsx")
 names(qsar.estimates)
 
 qsar.estimates1 <- qsar.estimates %>% select("CAS", "ECOSAR_Fathead", "ECOSAR_Daphnid", "ECOSAR_Plant", 
@@ -449,8 +445,7 @@ missing.chem4$min_concentration <- as.numeric(missing.chem4$min_concentration)
 cec.prioritization.17 <- bind_rows(cec.prioritization.16, missing.chem4)
 
 ##read in PB values - and bind to dataset (collated and manipulated on other R spreadsheet)#
-file.choose()
-e.fate <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Environmental Fate\\E_FATE_summary.xlsx")
+e.fate <- read_excel("E_FATE_summary.xlsx")
 
 cec.prioritization.18 <- left_join(cec.prioritization.17, e.fate)
 
@@ -526,8 +521,6 @@ cec.22$AF_Total <- cec.22$AF_datarichness * cec.22$AF_EFate * cec.22$AF_Effect *
 write_xlsx(cec.22, "preBenchmark_file.xlsx")
 
 ##divide AF_total by min concentration to get benchmark value##
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Final Benchmarks - Iterations")
-
 cec.23 <- cec.22
 
 cec.23$AF_BM <- cec.23$min_concentration / cec.23$AF_Total
@@ -553,9 +546,7 @@ View(cec.25)
 write_xlsx(cec.25, "CEC_benchmark_iteration_25_02_2021.xlsx")
 
 #extract chemicals without a benchmark value #
-file.choose()
-
-full.cas.list <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\CEC lists and Concentration Data\\CAS List for ECOTOX search.xlsx")
+full.cas.list <- read_excel("CAS List for ECOTOX search.xlsx")
 
 noBM.chem <- anti_join(full.cas.list, cec.25, by = "CAS")
 View(noBM.chem)
