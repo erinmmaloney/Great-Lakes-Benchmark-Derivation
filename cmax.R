@@ -4,13 +4,10 @@ library(tidyr)
 library(readxl)
 library(writexl)
 
-file.choose()
-setwd("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Pharmaceutical Potential")
-
 #bind together all cmax files
-cmax <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Pharmaceutical Potential\\Synth_1_water_toxcast_ecotox_summary_wCMax.xlsx", "CMax from MaPPFAST")
-cmax_extra <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Pharmaceutical Potential\\additional_CAS_for_ECOTOX_29_07_2021_wCmax.xlsx")
-cmax_extra_extra <- read_excel("C:\\Users\\erinm\\OneDrive\\Desktop\\GLRI Project\\GLRI Chemical Prioritization\\Pharmaceutical Potential\\missing_cmax_CMS.xlsx") 
+cmax <- read_excel("Synth_1_water_toxcast_ecotox_summary_wCMax.xlsx", "CMax from MaPPFAST")
+cmax_extra <- read_excel("additional_CAS_for_ECOTOX_29_07_2021_wCmax.xlsx")
+cmax_extra_extra <- read_excel("missing_cmax_CMS.xlsx") 
 
 names(cmax)
 names(cmax_extra)
